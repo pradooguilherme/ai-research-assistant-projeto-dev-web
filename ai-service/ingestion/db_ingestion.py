@@ -1,4 +1,5 @@
 import ast
+import os
 
 import pandas as pd
 import psycopg2
@@ -9,10 +10,10 @@ def load_data(path: str) -> pd.DataFrame:
     return pd.read_csv(path)
 
 def connect_to_database() -> psycopg2.extensions.connection:
-    return psycopg2.connect(database="ai_research_assistant_db",
-                            user="pradooguilherme",
-                            password="gp2025@",
-                            host="localhost")
+    return psycopg2.connect(database=os.getenv("DB_NAME"),
+                            user=os.getenv("DB_USER"),
+                            password=os.getenv("DB_PASSWORD"),
+                            host=os.getenv("DB_HOST", "localhost"))
 
 def run_query(query: str, values=None):
     connection = connect_to_database()
