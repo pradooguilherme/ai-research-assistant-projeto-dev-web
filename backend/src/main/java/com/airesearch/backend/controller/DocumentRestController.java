@@ -16,8 +16,8 @@ public class DocumentRestController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Document>> getAllDocuments(){
-        return ResponseEntity.ok(documentService.findAll());
+    public ResponseEntity<Iterable<Document>> getFirst100Documents() {
+        return ResponseEntity.ok(documentService.findFirst100Documents());
     }
 
     @GetMapping("/{id}")
