@@ -15,16 +15,10 @@ def save_clean_text(df: pd.DataFrame):
 def clean_text(text: str) -> str:
     if not isinstance(text, str):
         return ""
-
-    # Remove URLs
     text = re.sub(r"http\S+", "", text)
-    # Remove special characters
     text = re.sub(r"[^a-zA-Z0-9\s]", " ", text)
-    # Remove extras spaces
     text = re.sub(r"\s+", " ", text)
-    # Turn text in lowercase
     text = text.lower()
-
     return text.strip()
 
 def remove_small_texts(df: pd.DataFrame) -> pd.DataFrame:
