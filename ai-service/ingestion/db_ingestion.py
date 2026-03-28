@@ -85,8 +85,8 @@ def db_ingestion(df: pd.DataFrame):
                 print("Valores:", data.to_string())
                 print("Erro:", e)
                 print("-" * 50)
-                connection.rollback()  # evita travar a transação
-                break  # para na primeira falha (melhor pra debug)
+                connection.rollback()
+                break
 
         connection.commit()
 
