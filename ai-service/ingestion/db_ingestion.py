@@ -6,8 +6,8 @@ import psycopg2
 
 PATH_TO_DATASET = "../data/processed/cleaned_documents.csv"
 
-def load_data(path: str) -> pd.DataFrame:
-    return pd.read_csv(path)
+def load_data() -> pd.DataFrame:
+    return pd.read_csv(PATH_TO_DATASET)
 
 def connect_to_database() -> psycopg2.extensions.connection:
     return psycopg2.connect(database=os.getenv("DB_NAME"),
@@ -94,6 +94,6 @@ def db_ingestion(df: pd.DataFrame):
         cursor.close()
         connection.close()
 
-if __name__ == "__main__":
-    df = load_data(PATH_TO_DATASET)
+def main():
+    df = load_data()
     db_ingestion(df)
