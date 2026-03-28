@@ -3,7 +3,6 @@ package com.airesearch.backend.service.implementation;
 import com.airesearch.backend.model.Document;
 import com.airesearch.backend.repository.DocumentRepository;
 import com.airesearch.backend.service.DocumentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,6 +19,11 @@ public class DocumentServiceImplementation implements DocumentService {
     @Override
     public Iterable<Document> findAll() {
         return documentRepository.findAll();
+    }
+
+    @Override
+    public Iterable<Document> findFirst100Documents() {
+        return documentRepository.findFirst100Documents();
     }
 
     @Override
