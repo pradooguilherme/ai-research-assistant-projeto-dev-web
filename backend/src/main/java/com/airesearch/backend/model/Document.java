@@ -24,26 +24,8 @@ public class Document {
     private String text;
     @Column(columnDefinition = "TEXT")
     private String text_no_stopwords;
-    @Column(columnDefinition = "float8[]")
-    private List<Double> embedding;
-
 
     public Document() {
-    }
-
-    public Document(Long id, String title, String category, String category_code, LocalDate publication_date, LocalDate updated_date, List<String> authors, String first_author, String summary, Long summary_word_count, String text, String text_no_stopwords) {
-        this.id = id;
-        this.title = title;
-        this.category = category;
-        this.category_code = category_code;
-        this.publication_date = publication_date;
-        this.updated_date = updated_date;
-        this.authors = authors;
-        this.first_author = first_author;
-        this.summary = summary;
-        this.summary_word_count = summary_word_count;
-        this.text = text;
-        this.text_no_stopwords = text_no_stopwords;
     }
 
     public Document(String title, String category, String category_code, LocalDate publication_date, LocalDate updated_date, List<String> authors, String first_author, String summary, Long summary_word_count, String text, String text_no_stopwords) {
