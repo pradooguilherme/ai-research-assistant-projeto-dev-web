@@ -1,0 +1,1 @@
+ALTER TABLE documentembedding RENAME TO document_embedding;
