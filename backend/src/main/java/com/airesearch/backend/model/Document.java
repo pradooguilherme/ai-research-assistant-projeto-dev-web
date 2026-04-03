@@ -24,6 +24,8 @@ public class Document {
     private String text;
     @Column(columnDefinition = "TEXT")
     private String text_no_stopwords;
+    @Column(columnDefinition = "float8[]")
+    private List<Double> embedding;
 
 
     public Document() {
