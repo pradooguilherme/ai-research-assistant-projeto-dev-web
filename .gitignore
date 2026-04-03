@@ -40,3 +40,6 @@ ai-service/.idea/
 # Data
 ai-service/data/
 
+# .env
+ai-service/.env
+
