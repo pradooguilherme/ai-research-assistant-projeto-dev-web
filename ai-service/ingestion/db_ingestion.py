@@ -1,39 +1,8 @@
+from db.connection import connect_to_database
+from db.queries import run_query
+from ingestion.load_data import load_cleaned_data
 import ast
-import os
-
 import pandas as pd
-import psycopg2
-
-PATH_TO_DATASET = "../data/processed/cleaned_documents.csv"
-
-def load_data() -> pd.DataFrame:
-    return pd.read_csv(PATH_TO_DATASET)
-
-def connect_to_database() -> psycopg2.extensions.connection:
-    return psycopg2.connect(database=os.getenv("DB_NAME"),
-                            user=os.getenv("DB_USER"),
-                            password=os.getenv("DB_PASSWORD"),
-                            host=os.getenv("DB_HOST", "localhost"))
-
-def run_query(query: str, values=None):
-    connection = connect_to_database()
-    cursor = connection.cursor()
-
-    try:
-        if values is not None:
-            cursor.execute(query, values)
-        else:
-            cursor.execute(query)
-
-        if query.strip().lower().startswith("select"):
-            result = cursor.fetchall()
-            return pd.DataFrame(result)
-        else:
-            connection.commit()
-            return None
-    finally:
-        cursor.close()
-        connection.close()
 
 def db_ingestion(df: pd.DataFrame):
     query = """
@@ -77,7 +46,7 @@ def db_ingestion(df: pd.DataFrame):
                         if pd.notna(data["updated_date"]) else None,
                 )
 
-                cursor.execute(query, values)
+                run_query(query, values)
 
             except Exception as e:
                 print("\nERRO NA INSERÇÃO")
@@ -95,5 +64,5 @@ def db_ingestion(df: pd.DataFrame):
         connection.close()
 
 def main():
-    df = load_data()
+    df = load_cleaned_data()
     db_ingestion(df)
