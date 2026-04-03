@@ -1,16 +1,10 @@
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
+from ingestion.load_data import load_processed_data
+from ingestion.load_data import save_data
 import re
 import pandas as pd
 
-PATH_TO_DATASET = "../data/raw/arXiv_scientific_dataset_loaded.csv"
 PROCESSED_PATH = "../data/processed/cleaned_documents.csv"
-
-def load_data() -> pd.DataFrame:
-    return pd.read_csv(PATH_TO_DATASET)
-
-def save_clean_text(df: pd.DataFrame):
-    df.to_csv(PROCESSED_PATH, index=False)
-    print(f"Dataset cleaned saved to {PROCESSED_PATH}")
 
 def clean_text(text: str) -> str:
     if not isinstance(text, str):
@@ -31,7 +25,7 @@ def remove_stopwords(text: str) -> str:
     return " ".join(filtered)
 
 def main():
-    df = load_data()
+    df = load_processed_data()
     df = remove_small_texts(df)
     df["summary"] = df["summary"].apply(clean_text)
     df.drop_duplicates(subset=["summary"], inplace=True)
@@ -39,4 +33,4 @@ def main():
     df["text"] = "title: " + df["title"] + " abstract: " + df["summary"]
     df["text_no_stopwords"] = df["text"].apply(remove_stopwords)
     df.reset_index(drop=True, inplace=True)
-    save_clean_text(df)
+    save_data(df, PROCESSED_PATH)
