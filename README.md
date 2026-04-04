@@ -5,4 +5,4 @@ The AI Research Assistant is a platform that acts as an inteliggent assitant for
 # Why is it useful?
 
 
-# How do get started with the projet
+# How do get started with the project
