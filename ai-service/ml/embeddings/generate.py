@@ -3,8 +3,19 @@ from sentence_transformers import SentenceTransformer
 
 def generate_embeddings(batch_size=100):
     model = SentenceTransformer('all-MiniLM-L6-v2')
-    select_query = "SELECT id, text_no_stopwords FROM document WHERE embedding IS NULL LIMIT %s" % batch_size
-    update_query = "UPDATE document SET embedding = %s WHERE id = %s"
+    select_query = ("""
+    SELECT d.id, d.text_no_stopwords 
+    FROM document d
+    LEFT JOIN document_embedding de 
+        ON d.id = de.document_id
+    WHERE de.document_id IS NULL 
+    LIMIT %s
+    """) % batch_size
+
+    insert_query = """
+    INSERT INTO document_embedding (document_id, embedding) 
+    VALUES (%s, %s) 
+    """
 
     while True:
         df = run_query(select_query)
@@ -21,7 +32,7 @@ def generate_embeddings(batch_size=100):
             embeddings.append([row["id"], embedding])
 
         for embedding in embeddings:
-            run_query(update_query, [embedding[1], embedding[0]])
+            run_query(insert_query, [embedding[0], embedding[1]])
 
         print(f"Loaded {len(embeddings)} embeddings")
 
