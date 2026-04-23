@@ -2,11 +2,13 @@ package com.airesearch.backend.controller;
 
 import com.airesearch.backend.model.Document;
 import com.airesearch.backend.service.DocumentService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("document")
+@SecurityRequirement(name="bearerAuth")
 public class DocumentRestController {
 
     private final DocumentService documentService;
